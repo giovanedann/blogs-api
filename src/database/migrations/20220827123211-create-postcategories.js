@@ -7,7 +7,7 @@ module.exports = {
         primaryKey: true,
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
-        allowNull: true,
+        allowNull: false,
         references: {
           model: "Categories",
           key: "id",
@@ -18,7 +18,7 @@ module.exports = {
         primaryKey: true,
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
-        allowNull: true,
+        allowNull: false,
         references: {
           model: "BlogPosts",
           key: "id",
