@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv');
 const { User } = require('../database/models');
 
-module.exports = async (request, response) => {
+module.exports = async (request, response, next) => {
   const { authorization } = request.headers;
 
   if (!authorization) {
@@ -15,7 +15,7 @@ module.exports = async (request, response) => {
     const userExists = await User.findOne({ where: { email: data } });
 
     if (userExists) {
-      return response.status(200).json({ message: 'authorizated' });
+      next();
     }
   } catch (e) {
     return response.status(401).json({ message: 'Expired or invalid token' });
