@@ -4,6 +4,12 @@ const validateUserCredentials = require('../helpers/validateUserCredentials');
 const generateJwtToken = require('../utils/generateJwtToken');
 
 class UserController {
+  static async index(_request, response) {
+    const users = await User.findAll();
+
+    return response.status(200).json(users);
+  }
+
   static async store(request, response) {
     const { displayName, email, password, image } = request.body;
 
