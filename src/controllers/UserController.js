@@ -10,6 +10,16 @@ class UserController {
     return response.status(200).json(users);
   }
 
+  static async show(request, response) {
+    const { id } = request.params;
+
+    const user = await User.findOne({ where: { id } });
+    if (!user) {
+      return response.status(404).json({ message: 'User does not exist' });
+    }
+    return response.status(200).json(user);
+  }
+
   static async store(request, response) {
     const { displayName, email, password, image } = request.body;
 
