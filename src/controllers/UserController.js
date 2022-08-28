@@ -5,7 +5,9 @@ const generateJwtToken = require('../utils/generateJwtToken');
 
 class UserController {
   static async index(_request, response) {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: { exclude: ['password'] },
+    });
 
     return response.status(200).json(users);
   }
@@ -13,7 +15,10 @@ class UserController {
   static async show(request, response) {
     const { id } = request.params;
 
-    const user = await User.findOne({ where: { id } });
+    const user = await User.findOne({
+      where: { id },
+      attributes: { exclude: ['password'] },
+    });
     if (!user) {
       return response.status(404).json({ message: 'User does not exist' });
     }
