@@ -8,13 +8,15 @@ class UserController {
     const { displayName, email, password, image } = request.body;
 
     const userExists = await User.findOne({ where: { email } });
-
     if (userExists) {
       return response.status(409).json({ message: 'User already registered' });
     }
 
-    const { statusCode, message } = validateUserCredentials({ displayName, email, password });
-
+    const { statusCode, message } = validateUserCredentials({
+      displayName,
+      email,
+      password,
+    });
     if (statusCode && message) {
       return response.status(statusCode).json({ message });
     }
@@ -22,7 +24,6 @@ class UserController {
     await User.create({ displayName, email, password, image });
 
     const token = generateJwtToken(email);
-
     return response.status(201).json({ token });
   }
 }
