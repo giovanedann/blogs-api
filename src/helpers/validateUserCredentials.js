@@ -20,5 +20,5 @@ module.exports = ({ displayName, email, password }) => {
     };
   }
 
-  return null;
+  return {};
 };
