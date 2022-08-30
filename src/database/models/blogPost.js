@@ -18,7 +18,7 @@ const BlogPost = (sequelize, DataTypes) => {
       updated: DataTypes.DATE,
     },
     {
-      timestamps: true,
+      timestamps: false,
       tableName: 'BlogPosts',
     },
   );
