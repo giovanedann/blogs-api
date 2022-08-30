@@ -1,5 +1,7 @@
 const CategoryService = require('../services/CategoryService');
 const UserService = require('../services/UserService');
+const BlogPostService = require('../services/BlogPostService');
+const PostCategoryService = require('../services/PostCategoryService');
 
 class BlogPostController {
   static async store(request, response) {
@@ -14,7 +16,13 @@ class BlogPostController {
     if (message) return response.status(400).json({ message });
 
     const userId = await UserService.findUserIdByToken(authorization);
-    return response.status(200).json({ userId });
+    const postData = await BlogPostService.createPost({ title, content, userId });
+
+    await Promise.all(categoryIds.map(async (categoryId) => {
+      await PostCategoryService.createPostCategory(postData.id, categoryId);
+    }));
+
+    return response.status(201).json(postData);
   }
 }
 
