@@ -6,6 +6,11 @@ class UserService {
     const { id } = await User.findOne({ where: { email: decodeTokenEmail(jwtToken) } });
     return id;
   }
+
+  static async deactivate(jwtToken) {
+    const userId = await this.findUserIdByToken(jwtToken);
+    await User.destroy({ where: { id: userId } });
+  }
 }
 
 module.exports = UserService;
