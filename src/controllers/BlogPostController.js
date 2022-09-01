@@ -39,6 +39,29 @@ class BlogPostController {
 
     return response.status(201).json(postData);
   }
+
+  static async update(request, response) {
+    const { id } = request.params;
+    const { authorization } = request.headers;
+    const { title, content } = request.body;
+
+    const decodedId = await UserService.findUserIdByToken(authorization);
+    const postExists = await BlogPostService.findOne(id);
+
+    if (!postExists) return response.status(404).json({ message: 'Post does not exist' });
+
+    if (postExists.userId !== decodedId) {
+      return response.status(401).json({ message: 'Unauthorized user' });
+    }
+
+    if (!title || !content) {
+      return response.status(401).json({ message: 'Some required fields are missing' });
+    }
+
+    const updatedPost = await BlogPostService.update(id, title, content);
+    
+    return response.status(200).json(updatedPost);
+  }
 }
 
 module.exports = BlogPostController;
