@@ -42,6 +42,18 @@ class BlogPostService {
     return blogPosts;
   }
 
+  static async createPost({ title, content, userId }) {
+    const postData = await BlogPost.create({
+      title,
+      content,
+      userId,
+      updated: new Date(),
+      published: new Date(),
+    });
+
+    return postData;
+  }
+
   static async update(id, title, content) {
     await BlogPost.update(
       { title, content },
@@ -53,16 +65,10 @@ class BlogPostService {
     return updatedPost;
   }
 
-  static async createPost({ title, content, userId }) {
-    const postData = await BlogPost.create({
-      title,
-      content,
-      userId,
-      updated: new Date(),
-      published: new Date(),
+  static async delete(id) {
+    await BlogPost.destroy({
+      where: { id },
     });
-
-    return postData;
   }
 }
 
