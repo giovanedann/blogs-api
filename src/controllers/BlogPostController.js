@@ -62,6 +62,23 @@ class BlogPostController {
     
     return response.status(200).json(updatedPost);
   }
+
+  static async delete(request, response) {
+    const { id } = request.params;
+    const { authorization } = request.headers;
+
+    const decodedId = await UserService.findUserIdByToken(authorization);
+    const postExists = await BlogPostService.findOne(id);
+
+    if (!postExists) return response.status(404).json({ message: 'Post does not exist' });
+
+    if (postExists.userId !== decodedId) {
+      return response.status(401).json({ message: 'Unauthorized user' });
+    }
+
+    await BlogPostService.delete(id);
+    return response.sendStatus(204);
+  }
 }
 
 module.exports = BlogPostController;
