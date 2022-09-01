@@ -31,7 +31,7 @@ class BlogPostController {
     if (message) return response.status(400).json({ message });
 
     const userId = await UserService.findUserIdByToken(authorization);
-    const postData = await BlogPostService.createPost({ title, content, userId });
+    const postData = await BlogPostService.create({ title, content, userId });
 
     await Promise.all(categoryIds.map(async (categoryId) => {
       await PostCategoryService.createPostCategory(postData.id, categoryId);

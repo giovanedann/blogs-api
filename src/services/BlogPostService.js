@@ -42,7 +42,7 @@ class BlogPostService {
     return blogPosts;
   }
 
-  static async createPost({ title, content, userId }) {
+  static async create({ title, content, userId }) {
     const postData = await BlogPost.create({
       title,
       content,
