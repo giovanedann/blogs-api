@@ -4,6 +4,21 @@ const BlogPostService = require('../services/BlogPostService');
 const PostCategoryService = require('../services/PostCategoryService');
 
 class BlogPostController {
+  static async index(_request, response) {
+    const posts = await BlogPostService.findAll();
+    return response.status(200).json(posts);
+  }
+
+  static async show(request, response) {
+    const { id } = request.params;
+
+    const post = await BlogPostService.findOne(id);
+
+    if (!post) return response.status(404).json({ message: 'Post does not exist' });
+
+    return response.status(200).json(post);
+  }
+
   static async store(request, response) {
     const { title, content, categoryIds } = request.body;
     const { authorization } = request.headers;
