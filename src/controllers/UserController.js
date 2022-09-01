@@ -2,6 +2,7 @@
 const { User } = require('../database/models');
 const validateUserCredentials = require('../helpers/validateUserCredentials');
 const generateJwtToken = require('../utils/generateJwtToken');
+const UserService = require('../services/UserService');
 
 class UserController {
   static async index(_request, response) {
@@ -46,6 +47,14 @@ class UserController {
 
     const token = generateJwtToken(email);
     return response.status(201).json({ token });
+  }
+
+  static async deactivate(request, response) {
+    const { authorization } = request.headers;
+
+    await UserService.deactivate(authorization);
+
+    response.sendStatus(204);
   }
 }
 
