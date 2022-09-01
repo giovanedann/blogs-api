@@ -42,6 +42,17 @@ class BlogPostService {
     return blogPosts;
   }
 
+  static async update(id, title, content) {
+    await BlogPost.update(
+      { title, content },
+      {
+        where: { id },
+      },
+    );
+    const updatedPost = await BlogPost.findOne({ where: { id } });
+    return updatedPost;
+  }
+
   static async createPost({ title, content, userId }) {
     const postData = await BlogPost.create({
       title,
