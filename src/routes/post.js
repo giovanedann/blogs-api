@@ -7,5 +7,6 @@ const blogPostRoutes = Router();
 blogPostRoutes.get('/post/:id', authorization, BlogPostController.show);
 blogPostRoutes.get('/post', authorization, BlogPostController.index);
 blogPostRoutes.put('/post/:id', authorization, BlogPostController.update);
+blogPostRoutes.delete('/post/:id', authorization, BlogPostController.delete);
 blogPostRoutes.post('/post', authorization, BlogPostController.store);
 module.exports = blogPostRoutes;
