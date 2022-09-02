@@ -19,6 +19,23 @@ class BlogPostController {
     return response.status(200).json(post);
   }
 
+  static async search(request, response) {
+    const { q } = request.query;
+
+    if (!q) {
+      const allPosts = await BlogPostService.findAll();
+      return response.status(200).json(allPosts);
+    }
+
+    const post = await BlogPostService.findByQuery(q);
+
+    if (!post) {
+      return response.status(200).json([]);
+    }
+
+    return response.status(200).json(post);
+  }
+
   static async store(request, response) {
     const { title, content, categoryIds } = request.body;
     const { authorization } = request.headers;
