@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost, User, Category } = require('../database/models');
 
 class BlogPostService {
@@ -40,6 +41,27 @@ class BlogPostService {
       ],
     });
     return blogPosts;
+  }
+
+  static async findByQuery(queryParam) {
+    const post = await BlogPost.findOne({
+      where: {
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: `%${queryParam}%`,
+            },
+          },
+          {
+            content: {
+              [Op.like]: `%${queryParam}%`,
+            },
+          },
+        ],
+      },
+    });
+
+    return post;
   }
 
   static async create({ title, content, userId }) {
